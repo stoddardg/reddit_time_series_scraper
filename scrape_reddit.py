@@ -66,8 +66,8 @@ def export_data(engine):
     hot_rankings = pandas.read_sql('hot_ranking',engine)
     new_rankings = pandas.read_sql('new_ranking',engine)
 
-    hot_rankings.to_csv('hot_ranking.csv.gz', index=False, compression='gzip', encoding='utf-8')
-    new_rankings.to_csv('new_ranking.csv.gz', index=False, compression='gzip', encoding='utf-8')
+    hot_rankings.to_csv('hot_ranking.csv.gz', index=False, encoding='utf-8')
+    new_rankings.to_csv('new_ranking.csv.gz', index=False, encoding='utf-8')
 
 if __name__ == '__main__':
     
