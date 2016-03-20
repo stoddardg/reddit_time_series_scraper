@@ -61,14 +61,26 @@ def scrape_new_ranking(subreddit_name, engine, limit=100, current_time=None, col
     post_data_df = pandas.DataFrame(post_data_list)
     post_data_df.to_sql('new_ranking', engine, if_exists='append', index=False)
 
+def export_data(engine):
+    hot_rankings = pandas.read_sql('hot_ranking',engine)
+    new_rankings = pandas.read_sql('new_ranking',engine)
 
+    hot_rankings.to_csv('hot_ranking.csv.gz', index=False, compression='gzip')
+    new_rankings.to_csv('new_ranking.csv.gz', index=False, compression='gzip')
 
 if __name__ == '__main__':
+    
+    engine = create_engine("sqlite:///reddit_time_series.db")
+    if len(sys.argv) > 1:
+        if sys.argv[1] == 'export':
+            export_data(engine)
+            return
+
+    current_time = datetime.datetime.now()
+
     with open('subreddit_list.json') as data_file:    
         json_data = json.load(data_file)
 
-    current_time = datetime.datetime.now()
-    engine = create_engine("sqlite:///reddit_time_series.db")
 
 
     for collection in json_data:
