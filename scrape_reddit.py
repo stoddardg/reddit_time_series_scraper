@@ -71,23 +71,22 @@ def export_data(engine):
 if __name__ == '__main__':
     
     engine = create_engine("sqlite:///reddit_time_series.db")
-    if len(sys.argv) > 1:
-        if sys.argv[1] == 'export':
-            export_data(engine)
-            return
+    # if len(sys.argv) > 1:
+    if sys.argv[1] == 'export':
+        export_data(engine)
+        return
 
-    current_time = datetime.datetime.now()
+    if sys.argv[1] == 'scrape':
+        current_time = datetime.datetime.now()
 
-    with open('subreddit_list.json') as data_file:    
-        json_data = json.load(data_file)
+        with open('subreddit_list.json') as data_file:    
+            json_data = json.load(data_file)
 
-
-
-    for collection in json_data:
-        data = json_data[collection]
-        for s in data['subreddits']:
-            scrape_hot_ranking(s, engine, limit=50,current_time=current_time, collection=collection)
-            scrape_new_ranking(s, engine, limit=50,current_time=current_time, collection=collection)
+        for collection in json_data:
+            data = json_data[collection]
+            for s in data['subreddits']:
+                scrape_hot_ranking(s, engine, limit=50,current_time=current_time, collection=collection)
+                scrape_new_ranking(s, engine, limit=50,current_time=current_time, collection=collection)
 
 
 
