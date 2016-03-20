@@ -74,7 +74,6 @@ if __name__ == '__main__':
     # if len(sys.argv) > 1:
     if sys.argv[1] == 'export':
         export_data(engine)
-        return
 
     if sys.argv[1] == 'scrape':
         current_time = datetime.datetime.now()
